@@ -19,6 +19,7 @@ public:
 	ReadFile(File fn) :FSOperation("ReadFile"),f(&fn) {}
 	void execute() {
 		stanje = f->read();
+		//commentfgfgfg
 	}
 };
 class WriteFile :private FSOperation {

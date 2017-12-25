@@ -4,18 +4,18 @@
 using namespace std;
 
 
-typedef char* Text;
+typedef char Text;
 typedef char* Byte;
 
 
 class FSObject {
 private:
 	AccessDescriptor accessDescriptor;
-	Text name;
+	Text* name;
 public:
-	FSObject(Text nm,Folder* fn):name(nm),parent(fn){}
+	FSObject(Text* nm,Folder* fn):name(nm),parent(fn){}
 	Folder* parent;                                                               //0..1 ?????
-	Text getName();
+	Text* getName();
 	AccessDescriptor getAccessDescriptor();
 	virtual void accept(FilesystemVisitor* v) = 0;
 	virtual long size() = 0;
@@ -26,7 +26,7 @@ class Folder :public FSObject {
 private:
 	
 public:
-	Folder(Text a, Folder* fn) :FSObject(a, fn) {}
+	Folder(Text* a, Folder* fn) :FSObject(a, fn) {}
 	void accept(FilesystemVisitor* v) {	}
 	void add(FSObject* o);
 	long size() {}
@@ -41,7 +41,7 @@ class File :public FSObject {
 private:
 	Byte* content;
 public:
-	File(Text a, Folder* fn) :FSObject(a, fn), content(nullptr) {}
+	File(Text* a, Folder* fn) :FSObject(a, fn), content(nullptr) {}
 	void accept(FilesystemVisitor* v) {}
 	void write(Byte content) {}
 	FSObject* copy() {}
@@ -52,6 +52,7 @@ public:
 
 class FilesystemVisitor {
 public:
+	FilesystemVisitor();
 	virtual void visitFile(File f) = 0;
 	virtual void visitFolder(Folder f) = 0;
 };
@@ -68,13 +69,13 @@ public:
 class AccessDescriptor {
 private:
 	FSObject* protectedObject;
-	Text* allowedOperations;
+	Text** allowedOperations;
 public:
 	AccessDescriptor():allowedOperations(nullptr), protectedObject(nullptr){}
-	void add(Text operationName);
-	void remove(Text operationName);
-	Text* getAllowedOperations();
-	bool checkAccess(Text operationName);
+	void add(Text* operationName);
+	void remove(Text* operationName);
+	Text** getAllowedOperations();
+	bool checkAccess(Text* operationName);
 	~AccessDescriptor();
 };
 

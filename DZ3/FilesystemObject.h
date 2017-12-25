@@ -10,13 +10,17 @@ typedef char* Byte;
 
 class FSObject {
 private:
-	AccessDescriptor accessDescriptor;
+	AccessDescriptor *accessDescriptor;
 	Text* name;
 public:
-	FSObject(Text* nm,Folder* fn):name(nm),parent(fn){}
+	FSObject(Text* nm, Folder* fn = nullptr):name(nm), parent(fn) {
+		AccessDescriptor accessDescriptor();
+	}
 	Folder* parent;                                                               //0..1 ?????
 	Text* getName();
-	AccessDescriptor getAccessDescriptor();
+	AccessDescriptor getAccessDescriptor() {
+		return *accessDescriptor;
+	}
 	virtual void accept(FilesystemVisitor* v) = 0;
 	virtual long size() = 0;
 	virtual FSObject* copy() = 0;
@@ -26,14 +30,14 @@ class Folder :public FSObject {
 private:
 	
 public:
-	Folder(Text* a, Folder* fn) :FSObject(a, fn) {}
-	void accept(FilesystemVisitor* v) {	}
+	Folder(Text* a, Folder* fn=nullptr) :FSObject(a, fn) {}
+	void accept(FilesystemVisitor* v);
 	void add(FSObject* o);
-	long size() {}
+	long size();
 	std::vector<FSObject*> getObjects();
 	void remove(FSObject* obj);
 	std::vector<FSObject*> containedObjects;
-	FSObject* copy() {}
+	FSObject* copy();
 	~Folder();
 };
 
@@ -41,28 +45,29 @@ class File :public FSObject {
 private:
 	Byte* content;
 public:
-	File(Text* a, Folder* fn) :FSObject(a, fn), content(nullptr) {}
-	void accept(FilesystemVisitor* v) {}
-	void write(Byte content) {}
-	FSObject* copy() {}
-	long size() {}
-	Byte* read() {}
+	File(Text* a, Folder* fn=nullptr) :FSObject(a, fn), content(nullptr) {}
+	void accept(FilesystemVisitor* v);
+	void write(Byte content);
+	FSObject* copy();
+	long size();
+	Byte* read();
 	~File();
 };
 
 class FilesystemVisitor {
 public:
-	FilesystemVisitor();
-	virtual void visitFile(File f) = 0;
-	virtual void visitFolder(Folder f) = 0;
+	//FilesystemVisitor();
+	virtual void visitFile(File* f) = 0;
+	virtual void visitFolder(Folder* f) = 0;
 };
 
 class SearchVisitor :public FilesystemVisitor {
 private:
-	Text filepath;
+	Text* filepath;
 public:
-	void visitFile(File f);
-	void visitFolder(Folder f);
+	SearchVisitor(Text*);
+	void visitFile(File* f);
+	void visitFolder(Folder* f);
 	vector<FSObject*> foundObjects;
 };
 

@@ -94,18 +94,6 @@ Folder::~Folder() {
 
 }
 
-//class File :public FSObject {
-//private:
-//	Byte* content;
-//public:
-//	File(Text* a, Folder* fn) :FSObject(a, fn), content(nullptr) {}
-//	void accept(FilesystemVisitor* v) {}
-//	void write(Byte content) {}
-//	FSObject* copy() {}
-//	long size() {}
-//	Byte* read() {}
-//	~File();
-//};
 
 void File::accept(FilesystemVisitor* v) {
 	v->visitFile(*this);

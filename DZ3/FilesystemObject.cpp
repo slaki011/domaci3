@@ -5,26 +5,21 @@
 Text* FSObject::getName() {
 	return name;
 }
-
 void FSObject::setName(Text * name)
 {
 	this->name = name;
 }
-
 //AccessDescriptor FSObject::getAccessDescriptor()
 //{
 //	return *accessDescriptor;
 //}
-
 FSObject::~FSObject() {
 	delete name;
 	parent = nullptr;
 }
-
 void AccessDescriptor::add(Text* operationName) {
 	*allowedOperations = std::strcat(*allowedOperations, operationName);
 }
-
 void AccessDescriptor::remove(Text* operationName) {
 	int n = sizeof(allowedOperations) / sizeof(allowedOperations[0]);
 	for (int i = 0; i < n; i++) {
@@ -52,9 +47,6 @@ AccessDescriptor::~AccessDescriptor() {
 	delete protectedObject;
 	delete allowedOperations;
 }
-
-
-
 void Folder::accept(FilesystemVisitor* v) {
 	v->visitFolder(this);
 }
@@ -65,7 +57,6 @@ void Folder::add(FSObject* o) {
 std::vector<FSObject*> Folder::getObjects() {
 	return containedObjects;
 }
-
 void Folder::remove(FSObject* obj) {
 	for (int i = 0; i < containedObjects.size(); i++) {
 		if (containedObjects[i]->getName == obj->getName) {
@@ -91,7 +82,6 @@ FSObject* Folder::copy() {
 		return x;
 	}
 }
-
 Folder::~Folder() {
 	for (int i = 0; i < containedObjects.size(); i++)
 	{
@@ -99,17 +89,15 @@ Folder::~Folder() {
 	}
 
 }
-
-
 void File::accept(FilesystemVisitor* v) {
 	v->visitFile(this);
 }
-void File::write(Byte content) {
+void File::write(Byte* content) {
 	std::strcpy(*this->content, content);
 }
 FSObject* File::copy() {
 	File* novi = new File(this->getName(), this->parent);
-	novi->write(*this->content);
+	novi->write(this->content);
 	return novi;
 }
 //	long size() {} /???????????????????????????????????????????????????
@@ -119,9 +107,6 @@ Byte* File::read() {
 File::~File() {
 	delete content;
 }
-
-
-
 //class SearchVisitor :public FilesystemVisitor {
 //private:
 //	Text filepath;
@@ -130,11 +115,9 @@ File::~File() {
 //	void visitFolder(Folder f);
 //	vector<FSObject*> foundObjects;
 //};
-
 SearchVisitor::SearchVisitor(Text* t) {
 	std::strcpy(filepath, t);
 }
-
 void SearchVisitor::visitFile(File * f)
 {
 	foundObjects.push_back(f);

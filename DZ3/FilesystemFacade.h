@@ -9,7 +9,7 @@ public:
 	Folder* createFolder(Text* fName, Folder* parentFolder);
 	FSObject* listFolder(Folder* folder);
 	Byte* readFile(File* file);
-	void writeFile(Byte* content);
+	void writeFile(Byte* content,File* f);
 	void grantAccess(FSObject* fObj, Text* opName = nullptr);
 	void revokeAccess(FSObject* fObj, Text* opName = nullptr);
 	Folder openFolder(Text* folderPath);

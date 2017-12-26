@@ -2,7 +2,7 @@
 
 void WriteFile::execute()
 {
-
+	f->write(content);
 }
 
 void CreateFile::execute()
@@ -12,6 +12,9 @@ void CreateFile::execute()
 
 void DeleteObject::execute()
 {
+	objToDelete->parent->remove(objToDelete);
+	delete objToDelete;
+	check = true;
 }
 
 void CreateFolder::execute()
@@ -49,4 +52,10 @@ Text* FSOperation::getName()
 void ReadFile::execute()
 {
 	stanje = f->read();
+}
+
+void Move::execute()
+{
+	destFolder->add(objToMove);
+	objToMove->parent->remove(objToMove);
 }

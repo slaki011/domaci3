@@ -21,12 +21,21 @@
     <ClInclude Include="FilesystemOperations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FilesystemFacade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FilesystemObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemFacade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FilesystemOperations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

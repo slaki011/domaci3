@@ -135,11 +135,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="FilesystemFacade.h" />
     <ClInclude Include="FilesystemObject.h" />
     <ClInclude Include="FilesystemOperations.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FilesystemFacade.cpp" />
     <ClCompile Include="FilesystemObject.cpp" />
+    <ClCompile Include="FilesystemOperations.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

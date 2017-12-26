@@ -18,6 +18,7 @@ public:
 	}
 	Folder* parent;                                                               //0..1 ?????
 	Text* getName();
+	void setName(Text* name);
 	AccessDescriptor getAccessDescriptor() {
 		return *accessDescriptor;
 	}
@@ -33,11 +34,12 @@ public:
 	Folder(Text* a, Folder* fn=nullptr) :FSObject(a, fn) {}
 	void accept(FilesystemVisitor* v);
 	void add(FSObject* o);
-	long size();
+	long size() { return 1; }
 	std::vector<FSObject*> getObjects();
 	void remove(FSObject* obj);
 	std::vector<FSObject*> containedObjects;
 	FSObject* copy();
+	
 	~Folder();
 };
 
@@ -83,4 +85,9 @@ public:
 	bool checkAccess(Text* operationName);
 	~AccessDescriptor();
 };
+
+
+
+
+
 
